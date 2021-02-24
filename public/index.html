@@ -45,9 +45,16 @@
         $('[data-toggle="delete team"]').tooltip();
       });
       </script>
+     
+
+
+
     <script>
     window.onload =function(){
-    
+
+
+
+
 var items =document.getElementsByClassName("li-item");
 	Array.from(items).forEach(item=>{
 	item.addEventListener('click',function(){
@@ -61,7 +68,25 @@ var items =document.getElementsByClassName("li-item");
 })
 
 
+
+
     }
+   
+document.addEventListener('onload',function(){
+
+
+    console.log("111111111111111111111")
+    var btnv = document.getElementsByClassName('nav-link');
+    console.log(btnv)
+  Array.from(btnv).forEach(btn=>{
+    console.log("dfsdfsdf")
+    btn.addEventListener('click',function(){
+    console.log("hellox")
+});
+})
+        })
+  
+
     
 
    

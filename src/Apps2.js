@@ -8,31 +8,32 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
+    useRouteMatch,
   } from "react-router-dom";
 
 export const Component = (props) => {
+  
     return(
         <>
-          <div className="row h-100 bg_main ">
+        <div className="row h-100 bg_main ">
         <Menu/>
-        <div className="col-md-10 h-100 customize-layout-right d-flex flex-column"> 
+        <div id="tmp_id" className="col-md-10 h-100 customize-layout-right d-flex flex-column"> 
         <Header/>
         <Redirection/> 
         </div>
         </div> 
         <Request></Request>
-       {/*  <h2>Lalala</h2>
-        <Router> 
-        <Redirection/> 
-      </Router> */}
         </>
     )
 }
 function Redirection(){
+    const match = useRouteMatch()
+    console.log({match});
     var result = null;
     result = routes.map((route,index)=>{
-      return <Route path={route.path} component={route.page}  key={index} exact = {route.exact}>
-        
+      console.log(`${match.url}${route.path}`)
+      return <Route path={`${match.url}${route.path}`} component={route.page}  key={index} exact = {route.exact}>
+
       </Route>
     });
     return  <Switch>{result}</Switch>;

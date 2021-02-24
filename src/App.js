@@ -1,21 +1,19 @@
-import React, { useState,useEffect } from 'react';
-import Menu from './Components/menu.js';
-import routes from './Routes'
-import Header from './Components/header.js'
-import Request from './Components/request'
-import LoginRegister from './Pages/Login_Register'
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState,useEffect,Suspense } from 'react';
+/* import LoginRegister from './Pages/Login_Register' */
 import Main from './Apps2'
+import NotFoundPage from './Pages/NotFoundPage.js'
+
 import {app} from './firebaseConfig'
-import {Get_DataUserLogin,} from './Actions/Actions'
 
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
-import Home from './Pages/Home';
 import { Redirect } from "react-router-dom";
+
+
+const LoginRegister = React.lazy(()=>import('./Pages/Login_Register'))
 function App() {
   
 
@@ -28,11 +26,10 @@ function App() {
   app.auth().onAuthStateChanged(function(user) {
     if(user) {
       setisLogin(true)
-      console.log("đã login")
     }
     else{
       setisLogin(false)
-      console.log("chưa login")
+      console.log("em chay");
     }}
     )
 
@@ -40,16 +37,24 @@ function App() {
   
 
 return(
+  <Suspense fallback={<div>loading...</div>}>
   <Router> 
          <Switch>
               <Route path={'/login-register'}  exact = {false}>
-              {!isLogin ?  <LoginRegister/> :<Redirect to="/" /> }
+                  {!isLogin ?  <LoginRegister/> :<Redirect to="/" /> }
               </Route> 
-            <Route path={'/'}  exact = {false}>
-            {isLogin ? <Main /> :<Redirect to="/login-register" /> }
-            </Route>
-            </Switch>
+              <Route path={'/'}  exact = {false}>
+                  {isLogin ? <Main /> :<Redirect to="/login-register" /> }
+              </Route>
+              <Route path={':slug'}  exact = {false}>
+                  < NotFoundPage />
+              </Route>
+          </Switch>
+ 
+
+           
 </Router>
+</Suspense>
 
     );
   }

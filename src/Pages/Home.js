@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup,Tooltip } from 'react-leaflet';
 import { useMapEvents } from 'react-leaflet'
 import { useDispatch,useSelector } from 'react-redux';
 import L from "leaflet";
-import { connect } from 'react-redux'
 import {Set_Page,} from './../Actions/Actions'
 import {app} from '../firebaseConfig'
 
@@ -37,6 +36,8 @@ const[center,setCenter] = useState(
 const [draggable, setDraggable] = useState(true)
 const [Transaction, setTransaction] = useState(null)
 const [CenterLocation, setCenterLocation] = useState(null)
+const [tmpLocation, setTmpLocation] = useState(null)
+
 const [TeamLocation, setTeamLocation] = useState(null)
 const [UserLocation, setUserLocation] = useState(null)
 const localStorageID = localStorage.getItem('centerID')
@@ -54,7 +55,7 @@ const database_Transactions = app.database().ref().child(`CenterTeam/${centerID}
 var database_UpdateLocationSupport = app.database().ref().child(`SupportCenter/${type}/${city}/${id}/`)
 /* var database_UpdateLocationSupport = "" */
 const dispatch = useDispatch()
-
+const user_location = useSelector((state) => state.userlocation);
 
 useEffect(() => {
   
@@ -76,6 +77,10 @@ useEffect(() => {
         setCenterLocation([lat,lng])
         setCenter([lat,lng])
       }
+    }
+    if(user_location.latitude_user){
+      console.log(JSON.stringify(user_location))
+      setTmpLocation([user_location.latitude_user,user_location.longitude_user])
     }
   })
   }},100)
@@ -214,15 +219,17 @@ const ShowUserLocation=()=>{
     if(value.user_latitude && value.user_longitude){
     const lat = value.user_latitude
     const lng = value.user_longitude
+    const name = value.name
+    const phone = value.phone
       return(
           <Marker
           key={index}
           icon={UserIcon}
           position={[lat,lng]}>
           <Tooltip permanent direction="top" offset={[0, -45]} opacity={1} sticky>
-              I am user...
+             {name}
           </Tooltip>
-          </Marker> 
+          </Marker>   
         )  
     }
   })
@@ -235,6 +242,10 @@ const ShowTeamLocation=()=>{
     if(value.team_latitude && value.team_longitude){
     const lat = value.team_latitude
     const lng = value.team_longitude
+    var teamName= null
+    if(value.team_name){
+      teamName = value.team_name
+    }
     const Message =  value.user_id?`On duty...`:`Ready...`
     return(
       <Marker
@@ -242,14 +253,36 @@ const ShowTeamLocation=()=>{
       icon={TeamIcon}
       position={[lat,lng]}
       >
-      <Tooltip direction="top" offset={[0, -45]} opacity={1} permanent>
-        {Message}
+      <Tooltip direction="top" maxWidth={10} offset={[0, -45]} opacity={1} permanent>
+        {teamName?teamName:"Team"}
+         {/* {Message} */}
       </Tooltip>
       </Marker>
     )
   }
 })
   return view
+}
+const ShowUserRequest=()=>{
+  if(localStorage.getItem('userLongitude')){
+    const name = user_location.userName
+    const latitude = user_location.latitude_user
+    const longitude = user_location.longitude_user
+    return(
+      <Marker
+      icon={UserIcon}
+     /*  position={[localStorage.getItem('userLatitude'),localStorage.getItem('userLongitude')]} */
+     position={[16.155,108.1455]}
+      >
+      <Tooltip direction="top" maxWidth={10} offset={[0, -45]} opacity={1} permanent>
+        {name?name:"Ko Tên"}
+      </Tooltip>
+      </Marker>
+    )
+  }
+  else return false
+
+    
 }
 /* var location = []
 if(localStorage.getItem('latitude')){
@@ -273,12 +306,12 @@ const lng = localStorage.getItem('longitude')
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-    
          {CenterLocation? <DraggableMarker/>:console.log(" đang hiện lần đầu")}
     
         {!CenterLocation?<FirstCenterLocation/>:console.log("đang hiện lần sau")}
       {Transaction? <ShowUserLocation/>:console.log("Chưa nhận request nào từ user")}
       {Transaction? <ShowTeamLocation/>:console.log("Chưa có team nào")}
+    
       </MapContainer>,
  
       </div>

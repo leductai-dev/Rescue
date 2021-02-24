@@ -12,47 +12,47 @@ import NotFoundPage from './Pages/NotFoundPage.js'
 
 const routes = [
     {
-        path: '/',
+        path: '',
         exact : true,
         page: () => <Home/>
     },
     {
-        path: '/information',
+        path: 'information',
         exact : false,
         page: () => <Information/>
     },
     {
-        path: '/history',
+        path: 'history',
         exact : false,
         page: () => <History/>
     },
     {
-        path: '/manager-team',
+        path: 'manager-team',
         exact : false,
         page: ({history}) => <ManagerTeam/>
     },
     {
-        path: '/dashboard',
+        path: 'dashboard',
         exact : false,
         page: () => <Dashboard/>
     },
     {
-        path: '/help',
+        path: 'help',
         exact : false,
         page: () => <Help/>
     },
     {
-        path: '/setting',
+        path: 'setting',
         exact : false,
         page: () => <Setting/>
     },
     {
-        path: '/exit',
+        path: 'exit',
         exact : false,
         page: () => <Exit/>
     },
     {
-        path: '/:slug',
+        path: ':slug',
         exact : false,
         page: () => <NotFoundPage/>
     },

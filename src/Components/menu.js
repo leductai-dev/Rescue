@@ -64,16 +64,12 @@ var Menulink =({pageName, to, activeOnlyWhenExact,img} )=>{
             children= {({match})=>{
                 var active = (match)? "active":" ";
                 return (
-             
                 <li className={`li-item cts-li $(active)`}>
                     <Link to={to} className="a-item" ></Link>
                     <img className="img-history" src={img} alt="icon_link"  />
                     <span className="span-text">{pageName}</span>
                 </li>
-                
-
                 )
-            
             }}
             />
     )}

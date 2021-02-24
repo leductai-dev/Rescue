@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {Set_Page,Read_Data_Information} from './../Actions/Actions'
 import {app} from '../firebaseConfig'
-
+import axios from 'axios'   
 class Information extends Component {
     constructor(props) {
        super(props);
@@ -33,7 +33,7 @@ class Information extends Component {
   }
   
   saveInfo=()=>{
-    console.log("Dữ liệu chuẩn bị lưu là:"+JSON.stringify(this.state))
+    /* console.log("Dữ liệu chuẩn bị lưu là:"+JSON.stringify(this.state))
     const database = app.database().ref().child(`InfomationCenter/${localStorage.getItem('centerID')}/`)
     var updates = {
         center_name:this.state.name,
@@ -46,7 +46,19 @@ class Information extends Component {
     database.update(updates);
     this.setState({
         statusFormEdit : !this.state.statusFormEdit
+    }) */
+    alert("cc")
+    axios({
+      method: 'GET',
+      url:'http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_listcoursedetail&courseid=1022&timespan=71&t=s',
+      data:null,
+    }).then(res=>{
+      console.log(res.data)
     })
+    .catch(err=>{
+      console.log('Không kết nối được!!')
+    });
+   
   }
 
     setStatus=()=>{
@@ -183,6 +195,37 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 } 
 export default connect(mapStateToProps,mapDispatchToProps)(Information)
+
+var Lophoc = [
+  {
+    _id = ObjectID('231asd23as15fasd'),
+    day = '2',
+    time = '7',
+    duration:'2',
+    subject_id:ObjectID('231asd23as15fasd')
+
+  },
+  {
+    _id = ObjectID('231asd23as15fasd'),
+    day = '2',
+    time = '7',
+    duration:'2',
+    subject_id:ObjectID('231asd23as15fasd')
+
+  },
+]
+
+var Account = [
+  {
+    "_id":ObjectID('231asd23as15fasd'),
+  user_name:'taiducle123',
+  password:'ductai124434',
+  user_id: ObjectID('231asd23as15fasd'),
+  }
+
+]
+
+
 
 
 

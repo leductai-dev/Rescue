@@ -6,8 +6,10 @@
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.3.0",
+    "axios": "^0.21.1",
     "firebase": "^8.1.2",
     "history": "^5.0.0",
+    "jquery": "^3.5.1",
     "leaflet": "^1.7.1",
     "node-localstorage": "^2.1.6",
     "react": "^17.0.1",
@@ -49,5 +51,6 @@
   },
   "devDependencies": {
     "redux-devtools": "^3.7.0"
-  }
+  },
+  "proxy":"http://courses.duytan.edu.vn"
 }
